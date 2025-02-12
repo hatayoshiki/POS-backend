@@ -1,10 +1,11 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, HTTPException , Depends
 from sqlalchemy.orm import Session
 from database import SessionLocal
-from models import Product
+from models import ProductMaster
 
 router = APIRouter()
 
+# DB セッションを取得
 def get_db():
     db = SessionLocal()
     try:
@@ -12,9 +13,17 @@ def get_db():
     finally:
         db.close()
 
+# 商品検索 API
 @router.get("/get-product/")
 def get_product(jan_code: str, db: Session = Depends(get_db)):
-    product = db.query(Product).filter(Product.jan_code == jan_code).first()
-    if product:
-        return {"jan_code": product.jan_code, "name": product.name, "price": product.price}
-    return {"error": "商品がマスタ未登録です"}
+    product = db.query(ProductMaster).filter(ProductMaster.CODE == jan_code).first()
+
+    if not product:
+        raise HTTPException(status_code=404, detail="商品が見つかりません")
+
+    return {
+        "PRD_ID": product.PRD_ID,
+        "CODE": product.CODE,
+        "NAME": product.NAME,
+        "PRICE": product.PRICE
+    }
