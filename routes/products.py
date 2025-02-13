@@ -4,26 +4,29 @@ from database import SessionLocal
 from models import ProductMaster
 
 router = APIRouter()
+# ✅ ロガー設定（デバッグ用）
+logger = logging.getLogger(__name__)
 
-# DB セッションを取得
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-# 商品検索 API
 @router.get("/get-product/")
 def get_product(jan_code: str, db: Session = Depends(get_db)):
-    product = db.query(ProductMaster).filter(ProductMaster.CODE == jan_code).first()
+    try:
+        logger.info(f"🔍 JANコード検索: {jan_code}")
 
-    if not product:
-        raise HTTPException(status_code=404, detail="商品が見つかりません")
+        # 🔹 `strip()` で空白除去
+        product = db.query(ProductMaster).filter(ProductMaster.CODE == jan_code.strip()).first()
+        logger.info(f"📦 取得した商品: {product}")
 
-    return {
-        "PRD_ID": product.PRD_ID,
-        "CODE": product.CODE,
-        "NAME": product.NAME,
-        "PRICE": product.PRICE
-    }
+        if product:
+            response_data = {
+                "name": product.NAME,
+                "price": product.PRICE
+            }
+            logger.info(f"🚀 返すデータ: {response_data}")
+            return response_data
+        else:
+            logger.warning("⚠️ 商品が見つかりません")
+            return {"error": "商品が見つかりません"}
+
+    except Exception as e:
+        logger.error("❌ エラー発生", exc_info=True)
+        return HTTPException(status_code=500, detail="エラーが発生しました")
