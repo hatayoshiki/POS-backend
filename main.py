@@ -16,9 +16,6 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 app = FastAPI()
-router = APIRouter()
-app.include_router(products.router)
-app.include_router(transactions.router)
 
 # CORS 設定
 origins = [
@@ -36,8 +33,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# ✅ ルーターの登録
+router = APIRouter()
 app.include_router(products.router)
-app.include_router(transactions.router)  # `/transactions/` エンドポイントを有効化
+app.include_router(transactions.router)
 
 # 商品検索 API
 @app.get("/get-product/")
