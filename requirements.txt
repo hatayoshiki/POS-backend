@@ -113,9 +113,6 @@ nest-asyncio==1.6.0
 notebook==7.2.0
 notebook_shim==0.2.4
 numpy==1.26.2
-onnx==1.16.2
-onnxconverter-common==1.14.0
-onnxruntime==1.19.0
 openai==1.42.0
 openpyxl==3.1.5
 optuna==3.6.1
@@ -133,7 +130,6 @@ prompt_toolkit==3.0.45
 protobuf==3.20.2
 psutil==5.9.8
 pure-eval==0.2.2
-pyarrow==17.0.0
 pycparser==2.22
 pydantic==2.7.4
 pydantic_core==2.18.4
@@ -158,8 +154,6 @@ requests==2.31.0
 rfc3339-validator==0.1.4
 rfc3986-validator==0.1.1
 rich==13.7.1
-scikit-learn==1.5.1
-scipy==1.14.0
 seaborn==0.13.2
 SQLAlchemy==2.0.23
 stack-data==0.6.3
@@ -172,6 +166,5 @@ urllib3==2.1.0
 uvicorn==0.34.0
 watchdog==4.0.1
 Werkzeug==3.0.1
-xgboost==2.1.0
 yarl==1.9.4
 yfinance==0.2.41
