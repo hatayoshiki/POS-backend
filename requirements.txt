@@ -1,3 +1,5 @@
+# Windows でのみインストール
+pywin32==306; sys_platform == "win32"
 fastapi
 uvicorn
 gunicorn
